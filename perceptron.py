@@ -53,10 +53,11 @@ class Perceptron:
         plt.show()
 
     def train(self):
-        # find the w's
-        
+        # TODO find the w's
+        pass
 
     def test(self):
+        # TODO
         pass
 
 percept = Perceptron()
