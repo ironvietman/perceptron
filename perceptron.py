@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 class Perceptron:
     def __init__(self):
         self.w = np.zeros((3, 1))
+        self.data = None
+        self.target = None
+        self.func = None
+
 
     def gen_targetfunc(self, N):
         # Get the target function
@@ -54,7 +58,24 @@ class Perceptron:
 
     def train(self):
         # TODO find the w's
-        pass
+        w = np.zeros((1, 3))
+        X = self.data
+        interations = 0
+        target = self.target
+        for i in range(0, X.shape[0]):
+            print "x ", X[i, :]
+            y = np.inner(w, X[i, :][np.newaxis])
+            print "y",y
+            if(y > 0):
+                y = 1
+            else:
+                y = -1
+            if(target[:, i]*y < 0):
+                w = w + y*X[i, :]  # adjust weights
+                interations += 1
+
+        self.w = w
+        return interations
 
     def test(self):
         # TODO
@@ -63,3 +84,6 @@ class Perceptron:
 percept = Perceptron()
 percept.gen_targetfunc(10)
 percept.display(percept.data, percept.target, percept.func)
+inter = percept.train()
+print inter
+percept.display(percept.data, percept.target, percept.w)
