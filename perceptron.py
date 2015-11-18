@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
+
 class Perceptron:
     def __init__(self):
         self.w = np.zeros((3, 1))
@@ -78,7 +79,7 @@ class Perceptron:
             # Adujust the weights for one point
             sample_id = random.choice(misclassified)
             sample = X[sample_id, :]
-            adjust = target[:, sample_id]
+            adjust = target[:, sample_id]  # use the target
             y[:, sample_id] = adjust
 
             # print adjust, y
@@ -91,10 +92,26 @@ class Perceptron:
         self.w = w
         return iterations
 
+    def compare_actual(self):
+        # Generate testing data from it
+        numpoints = 1000
+        X = np.random.uniform(-1, 1, (numpoints, 2))
+        X = np.hstack((np.ones((numpoints, 1)), X))
+        count = 0
+        for i in range(0, numpoints):
+            if (self.test(X[i, :]) != self.test_act(X[i, :])):
+                count += 1
+        percent_error = float(count) / numpoints
+        return percent_error
+
+    def test_act(self, sample):
+        y = cmp(np.inner(self.func, sample[np.newaxis]), 0)
+        return y
+
     def test(self, sample):
         y = cmp(np.inner(self.w, sample[np.newaxis]), 0)
         return y
-        pass
+
 
 percept = Perceptron()
 percept.gen_targetfunc(100)
@@ -102,8 +119,11 @@ percept.display(percept.data, percept.target, percept.func)
 plt.show()
 itera = 0
 RUNS = 100
+error = 0.0
 for i in range(0, RUNS):
     # print i
     itera += percept.train()
-print 'average iterations: ', itera/RUNS
-#percept.display(percept.data, percept.target, percept.w)
+    error += percept.compare_actual()
+print 'average iterations:', itera/RUNS
+# percept.display(percept.data, percept.target, percept.w)
+print 'Probabily of error', error/RUNS
