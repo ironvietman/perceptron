@@ -1,5 +1,5 @@
 # Perceptron
-Implementation of the perceptron.
+Implementation of the perceptron. As a part of Machine Learning Course - CS 156 Homework.
 
 ## Requirements
 - numpy
